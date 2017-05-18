@@ -1,0 +1,88 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Lab5.h"
+#include "Queue.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+
+int n;
+Queue ob;
+
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::FormCreate(TObject *Sender)
+{
+	ListBox1->Clear();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button1Click(TObject *Sender)
+{
+	int xA = rand();
+	ob.Add(xA);
+	ListBox1->Clear();
+	ob.Show();
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button3Click(TObject *Sender)
+{
+	ob.~Queue();
+	ListBox1->Clear();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button4Click(TObject *Sender)
+{
+	try
+	{
+		ob.DelN();
+		ListBox1->Clear();
+		ob.Show();
+	}
+	catch(...)
+	{
+
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button5Click(TObject *Sender)
+{
+	int xA = StrToInt(Edit2->Text);
+	ob.Add(xA);
+	Edit2->Clear();
+	ListBox1->Clear();
+	ob.Show();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::Button6Click(TObject *Sender)
+{
+	int num = StrToInt(Edit1->Text);
+	for (int i = 1; i <= num; i++)
+	{
+		int xA = rand();
+		ob.Add(xA);
+		ListBox1->Clear();
+		ob.Show();
+	}
+	Edit1->Clear();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button7Click(TObject *Sender)
+{
+	ob.SortBubble();
+	ListBox1->Clear();
+	ob.Show();
+}
+//---------------------------------------------------------------------------
+

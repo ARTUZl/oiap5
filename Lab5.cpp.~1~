@@ -1,0 +1,151 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit1.h"
+#include <iostream.h>
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+struct Node
+{
+	int x;
+	Node *Next;
+	Node *Prev;
+};
+
+class Queue
+{
+	Node *Head;
+	Node *Tail;
+	public:
+	Queue (): Head(NULL), Tail(NULL) {}
+	~Queue ();
+	void Show ();
+	void Add (int x);
+	void DelN();
+};
+
+Queue::~Queue()
+{
+	while (Head)
+	{
+		Tail = Head->Next;
+		delete Head;
+		Head = Tail;
+	}
+}
+
+void Queue::Add (int x)
+{
+	Node *temp = new Node;
+	temp->Next = NULL;
+	temp->x = x;
+	if (Head!=NULL)
+	{
+		temp->Prev = Tail;
+		Tail->Next = temp;
+		Tail = temp;
+	}
+	else
+	{
+		temp->Prev = NULL;
+		Head = Tail = temp;
+	}
+}
+
+void Queue::DelN()
+{
+	if (Head == 0)
+	{
+		ShowMessage("Error");
+	}
+	Node *temp;
+	temp = Head->Next;
+	delete Head;
+	Head = temp;
+}
+
+void Queue::Show()
+{
+	Node *temp = Tail;
+	temp = Head;
+	while(temp != NULL)
+	{
+		cout << temp->x << " ";
+		Form1->Memo1->Lines->Add(temp->x);
+		temp = temp->Next;
+	}
+}
+int n;
+Queue ob;
+
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Edit1Change(TObject *Sender)
+{
+	n = StrToInt(Edit1->Text) + 1;
+	StringGrid1->RowCount = n;
+	for (int i = 1; i < n; i++)
+        StringGrid1->Cells[0][i] = i;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::FormCreate(TObject *Sender)
+{
+	StringGrid1->ColCount = 2;
+	StringGrid1->RowCount = 2;
+	StringGrid1->Cells[0][0] = "Номер";
+	StringGrid1->Cells[1][0] = "Значение";
+	Memo1->Clear();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button1Click(TObject *Sender)
+{
+	int xA;
+	for (int i = 1; i < n; i++)
+	{
+		xA = StrToInt(StringGrid1->Cells[1][i]);
+		ob.Add(xA);
+	}
+	Button2Click(Sender);
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button2Click(TObject *Sender)
+{
+	Memo1->Clear();
+	ob.Show();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button3Click(TObject *Sender)
+{
+	ob.~Queue();
+	Memo1->Clear();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button4Click(TObject *Sender)
+{
+	try
+	{
+		ob.DelN();
+		Memo1->Clear();
+		ob.Show();
+	}
+	catch(...)
+	{
+
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button5Click(TObject *Sender)
+{
+	int xA = StrToInt(Edit2->Text);
+	ob.Add(xA);
+	Button2Click(Sender);
+}
+//---------------------------------------------------------------------------

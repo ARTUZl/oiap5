@@ -1,0 +1,88 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Lab5.h"
+#include "Queue.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+
+int n;
+Queue ob;
+
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::FormCreate(TObject *Sender)
+{
+	Queue->Clear();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::AddRandomNumberClick(TObject *Sender)
+{
+	int xA = rand();
+	ob.Add(xA);
+	Queue->Clear();
+	ob.Show();
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::RemoveAllClick(TObject *Sender)
+{
+	ob.~Queue();
+	Queue->Clear();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::RemoveFromBeginClick(TObject *Sender)
+{
+	try
+	{
+		ob.Remove();
+		Queue->Clear();
+		ob.Show();
+	}
+	catch(...)
+	{
+
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::AddOwnNumberClick(TObject *Sender)
+{
+	int xA = StrToInt(EnterOwnNumber->Text);
+	ob.Add(xA);
+	EnterOwnNumber->Clear();
+	Queue->Clear();
+	ob.Show();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::AddNRandomNumberClick(TObject *Sender)
+{
+	int num = StrToInt(EnterNRandomNumber->Text);
+	for (int i = 1; i <= num; i++)
+	{
+		int xA = rand();
+		ob.Add(xA);
+		Queue->Clear();
+		ob.Show();
+	}
+	EnterNRandomNumber->Clear();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::SortClick(TObject *Sender)
+{
+	ob.SortBubble();
+	Queue->Clear();
+	ob.Show();
+}
+//---------------------------------------------------------------------------
+
